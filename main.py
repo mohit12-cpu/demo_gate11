@@ -160,12 +160,6 @@ class DoorController:
         self.door_unlocked_time = time.time()
         self.logger.log_event("Door Opened", person_name)
         
-        # Send email notification
-        if self.email_notifier and self.email_notifier.enabled:
-            subject = f"Door Unlocked - {person_name}"
-            message = f"The door was unlocked for {person_name} at {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}"
-            self.email_notifier.send_notification(subject, message)
-        
         print(f"[DOOR] Door unlocked for {person_name}")
     
     def lock_door(self):
@@ -214,14 +208,21 @@ def handle_library_error(e):
 greeting_queue = queue.Queue()
 
 def greeting_worker():
-    """Processes names from a queue and speaks a greeting in a separate thread."""
+    """Processes messages from a queue and speaks either greetings or alerts in a separate thread."""
     engine = pyttsx3.init()
     while True:
         try:
-            name = greeting_queue.get()
-            greeting = f"Hello, {name}, welcome back."
-            print(f"[Greeting] Saying: '{greeting}'")
-            engine.say(greeting)
+            message = greeting_queue.get()
+            # Check if this is an unknown person alert or a greeting for a known person
+            if message == "Unknown person detected":
+                alert = "Unknown person detected."
+                print(f"[Alert] Saying: '{alert}'")
+                engine.say(alert)
+            else:
+                # This is a greeting for a known person
+                greeting = f"Hello, {message}, welcome back."
+                print(f"[Greeting] Saying: '{greeting}'")
+                engine.say(greeting)
             engine.runAndWait()
             greeting_queue.task_done()
         except Exception as e:
@@ -345,6 +346,9 @@ def main():
                         # Log unknown person and send email notification
                         logger.log_event("Unknown Person Detected")
                         print("[ALERT] Unknown person detected!")
+                        
+                        # Speak "Unknown person detected" using text-to-speech
+                        greeting_queue.put("Unknown person detected")
                         
                         # Capture only one clear image per unknown person detection
                         # Use a cooldown period to avoid multiple captures of the same person

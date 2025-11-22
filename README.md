@@ -23,7 +23,7 @@ A complete face recognition door access control system that can detect and recog
 - **NumPy** - For numerical computations
 - **pyttsx3** - For voice greetings
 - **Flask** - For web dashboard
-- **RPi** - For Raspberry Pi 
+- **RPi.GPIO** - For Raspberry Pi GPIO control (optional)
 
 ## Installation
 
@@ -35,11 +35,6 @@ A complete face recognition door access control system that can detect and recog
 ### Install Dependencies
 
 1. Clone or download this repository
-
-```bash
-git clone https://github.com/mohit12-cpu/demo_gate11.git
-```
-
 2. Navigate to the project directory
 3. Install the required packages:
 
@@ -60,7 +55,7 @@ pip install face-recognition
 
 ### 1. Register New Users
 
-To add new authorised users to the system:
+To add new authorized users to the system:
 
 ```bash
 python register.py
@@ -238,8 +233,4 @@ This project is open source and available under the MIT License.
 
 ## Contributing
 
-
 Contributions are welcome! Feel free to submit issues and pull requests.
-
-
-
