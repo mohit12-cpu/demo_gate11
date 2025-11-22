@@ -37,7 +37,7 @@ A complete face recognition door access control system that can detect and recog
 1. Clone or download this repository
 
 ```bash
-git clone
+git clone https://github.com/mohit12-cpu/demo_gate11.git
 ```
 
 2. Navigate to the project directory
@@ -240,4 +240,5 @@ This project is open source and available under the MIT License.
 
 
 Contributions are welcome! Feel free to submit issues and pull requests.
+
 
